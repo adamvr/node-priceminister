@@ -61,7 +61,7 @@ Price.prototype.done = function (cb) {
         if (err) return cb(new Error(err));
 
         // Extract important things
-        return cb(null, extract(text, that.extractions));
+        return cb(null, extract.call(that, text, that.extractions));
       });
     });
 };
