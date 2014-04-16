@@ -72,10 +72,18 @@ var first = function (object, query) {
 };
 
 var extract = function (text, extractions) {
+  var that = this;
+
   var res = _
     .chain(extractions)
     .map(function (x) {
-      return [x.name, first(text, x.query)];
+      var key = x.name
+        , val = first(text, x.query);
+
+      // Transform value if we have a transform available
+      if (x.transform) val = x.transform.call(that, val);
+
+      return [key, val];
     })
     .filter(function (x) {
       return x[1] !== null;
