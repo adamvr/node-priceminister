@@ -15,7 +15,7 @@ var defaultExtractions = [
     transform: transforms.addTracking,
     query: '$..product..url[0]'
   },
-  { name: 'totalNew', query: '$..product..offercounts..new[0]' },
+  { name: 'remaining', query: '$..product..offercounts..new[0]' },
   { name: 'offerPrice',
     transform: transforms.formatPrice,
     query: '$..product..bestprices..advertprice[0]'
