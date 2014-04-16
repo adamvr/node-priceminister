@@ -4,14 +4,22 @@
 var request = require('superagent')
   , xml2js = require('xml2js')
   , path = require('JSONPath').eval
+  , transforms = require('./transforms')
   , _ = require('underscore');
 
 var endpoint = 'http://ws.priceminister.com/listing_ws';
 var defaultExtractions = [
   { name: 'name', query: '$..product..headline[0]' },
   { name: 'id', query: '$..product..productid[0]' },
-  { name: 'url', query: '$..product..url[0]' }, 
-  { name: 'totalNew', query: '$..product..offercounts..new[0]'}
+  { name: 'url',
+    transform: transforms.addTracking,
+    query: '$..product..url[0]'
+  },
+  { name: 'totalNew', query: '$..product..offercounts..new[0]' },
+  { name: 'offerPrice',
+    transform: transforms.formatPrice,
+    query: '$..product..bestprices..advertprice[0]'
+  }
 ];
 
 var price = module.exports = function (itemId) {
