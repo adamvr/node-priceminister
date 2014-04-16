@@ -14,7 +14,6 @@ var defaultExtractions = [
   { name: 'totalNew', query: '$..product..offercounts..new[0]'}
 ];
 
-
 var price = module.exports = function (itemId) {
   return new Price(itemId);
 };
@@ -65,11 +64,16 @@ var first = function (object, query) {
 };
 
 var extract = function (text, extractions) {
-  return _
+  var res = _
     .chain(extractions)
     .map(function (x) {
       return [x.name, first(text, x.query)];
     })
+    .filter(function (x) {
+      return x[1] !== null;
+    })
     .object()
     .value();
+
+  return _.keys(res).length ? res : null;
 };
