@@ -43,6 +43,11 @@ Price.prototype.id = function (id) {
   return this;
 };
 
+Price.prototype.nav = function (nav) {
+  this.nav = nav;
+  return this;
+};
+
 Price.prototype.done = function (cb) {
   var that = this;
   request(endpoint)
@@ -51,6 +56,7 @@ Price.prototype.done = function (cb) {
     .query({version: '2014-01-28'})
     .query(this.mode === 'search' ? {kw: this.keywords} : {productids: this.itemId})
     .query({nbproductsperpage: 1})
+    .query({nav: this.nav})
     .end(function (err, res) {
       if (err) return cb(err);
       xml2js.parseString(res.text, {trim: true}, function (err, text) {
